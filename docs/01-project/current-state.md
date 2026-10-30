@@ -416,7 +416,7 @@ can be deleted.
   saves itself (`--screenshot`, `make window-check`), with scripted input; no keyboard,
   controller, audio, or resize check of the game window on the desktop
   session (WL3-021). The owner used the TAS editor's keyboard input to
-  record. No project license decision (WL3-016).
+  record. The project license is MIT (WL3-016, 2026-10-29).
 
 ## How to resume
 

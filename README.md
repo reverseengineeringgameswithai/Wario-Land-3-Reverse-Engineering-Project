@@ -1,5 +1,8 @@
 # WL3PC
 
+> **Disclaimer:** Every step of this project was done with AI. Some things
+> may be inaccurate or false.
+
 Workspace for a faithful, source-understood native Linux port of Wario Land 3,
 built from a locally owned ROM. Gameplay runs as host-side game logic in
 Godot; the game itself never runs the original ROM (a local emulator is used
@@ -38,3 +41,10 @@ make tas NAME=late SAVE=~/my-wl3.sav         # or start from your own battery sa
 ```
 
 Open `docs/` (not the repository root) as an Obsidian vault.
+
+## License
+
+The project's own code, documentation, schemas, and synthetic data are under
+the [MIT License](LICENSE): fork it and use it freely. Wario Land 3 belongs to
+Nintendo; no ROM or game content is included, and the license grants no
+rights in it. See [licensing and provenance](LICENSES.md).

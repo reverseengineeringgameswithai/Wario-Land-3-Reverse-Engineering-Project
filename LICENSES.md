@@ -1,19 +1,25 @@
 # Licensing and provenance
 
 This file records what each part of the repository is, where it came from,
-and what may be done with it. It does not grant a license. The project's
-own license is **undecided** (task WL3-016), so nothing here should be
-treated as redistributable until that decision is made.
+and what may be done with it. The project's own work is under the
+**[MIT License](LICENSE)**, chosen by the owner on 2026-10-29 (WL3-016):
+anyone may use, copy, modify, fork, merge, publish, distribute, sublicense,
+and sell it, keeping the copyright and permission notice.
+
+The license covers this project's own work only. It grants no rights in
+Wario Land 3 or any other Nintendo property (the game, its code, graphics,
+music, names, and trademarks), nor in the third-party sources listed below,
+whose own terms apply. No ROM or content extracted from one is included.
 
 ## Tracked in this repository
 
 | Component | Origin | Status |
 | --- | --- | --- |
-| `tools/`, `tests/`, `game/scripts/`, `game/tests/`, `schemas/`, `Makefile` | Written for this project | Project-original; license pending WL3-016 |
-| `docs/` | Written for this project | Project-original; license pending WL3-016 |
-| `game/assets/content/synthetic/`, `game/assets/traces/`, `tests/fixtures/` | Written for this project; invented values | Project-original synthetic data, no ROM bytes |
-| `mods/examples/` | Written for this project | Project-original example |
-| Layout facts in `tools/wl3pc/extract/` and `tools/wl3pc/known_roms.py` | Addresses, counts, and hashes observed in the user's ROM and read from the ElectroDeoxys disassembly | Short factual references with citations; see open question 2 |
+| `tools/`, `tests/`, `game/scripts/`, `game/tests/`, `schemas/`, `Makefile` | Written for this project | Project-original; MIT |
+| `docs/` | Written for this project | Project-original; MIT |
+| `game/assets/content/synthetic/`, `game/assets/traces/`, `tests/fixtures/` | Written for this project; invented values | Project-original synthetic data, no ROM bytes; MIT |
+| `mods/examples/` | Written for this project | Project-original example; MIT |
+| Layout facts in `tools/wl3pc/extract/` and `tools/wl3pc/known_roms.py` | Addresses, counts, and hashes observed in the user's ROM and read from the ElectroDeoxys disassembly | The code is MIT; the facts are short, cited references, see open question 2 |
 | `uv.lock`, lock JSON files | Generated or written for this project | Metadata only |
 
 Not tracked, ever: the ROM, the WL3 Editor, reference checkouts, extracted
@@ -34,14 +40,16 @@ content, captures, saves, Godot export templates, and build outputs. See
 
 ## Open questions
 
-1. **Project license.** Which license applies to project-original code, docs,
-   and synthetic data? This needs a decision from the owner (WL3-016).
+1. **Project license.** Resolved 2026-10-29: MIT for project-original code,
+   docs, schemas, synthetic data, and example mods ([LICENSE](LICENSE),
+   WL3-016).
 2. **Facts from an unlicensed disassembly.** The extractor records a few
    addresses, counts, and symbol names learned from reading ElectroDeoxys'
    disassembly, which declares no license. These are kept minimal and cited,
    and symbol names are only attached to local outputs at runtime from a
    locally built `.sym`. Whether this is acceptable for a public release is
-   unresolved.
+   unresolved; the public repository (2026-10-29) includes them as they
+   stand. Deferred under WL3-016.
 3. **Distribution of ROM-derived content.** Extracted content stays in
    ignored `local/content/`. Future public builds must select synthetic or
    original-authored content explicitly. The export check (`make
@@ -50,3 +58,10 @@ content, captures, saves, Godot export templates, and build outputs. See
    sufficient: a re-encoded asset will not match it.
 4. **Not clean-room.** Contributors have read the disassembly. Do not describe
    this project as a clean-room implementation.
+5. **Translated routines.** `game/scripts/sim/` reimplements the original's
+   routines by translating the disassembly
+   ([ADR-0003](docs/03-architecture/adr-0003-wario-port-by-translation.md)),
+   and the code and notes use the disassembly's symbol names. The MIT
+   License covers this project's own expression; it cannot license
+   Nintendo's original code, and whether a translation derives from it is
+   a legal question this project has not answered.

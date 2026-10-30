@@ -356,11 +356,6 @@ come from the local reference-build symbol file.
   frame where the game diverges (for example, by comparing Wario's position
   with the BizHawk movie's own RAM watch export, if available).
 
-### WL3-016 Choose the project license (P2, blocked: owner decision)
-
-- **Acceptance:** `LICENSES.md` names the license for project-original code,
-  docs, and synthetic data, and answers or explicitly defers open question 2.
-
 ### WL3-017 Optional froggestspirit comparison build (P3, todo)
 
 - **Acceptance:** build with RGBDS v0.4.1 in an ignored workspace against an
@@ -396,6 +391,7 @@ come from the local reference-build symbol file.
 
 | ID | Task | Evidence |
 | --- | --- | --- |
+| WL3-016 | The project license, chosen by the owner on 2026-10-29: MIT for project-original code, docs, schemas, synthetic data, and example mods; open question 2 (facts from the unlicensed disassembly) deferred, and open question 5 (translated routines) recorded | [LICENSE](../../LICENSE), [LICENSES.md](../../LICENSES.md) |
 | WL3-055 | Native play from a save: the save's load at power-on (`SaveLoad`, equal to `ValidateSaveData` on 19 captured loads), the title's Continue path ported and drawn (`TitleSim`, `TitleVram`), and power-on runs with a battery save in the parity run mode and the window (`make run SAVE=…`); from `game-017`'s save, 142 title loops, the map, the way into a level, 1,217 level frames, the pause menu's To Map, and the map's save all match natively with nothing seeded before the level; the rest of the title is WL3-056 | [the save's load](../02-research/save-load.md), [the title](../02-research/title.md), [session](../06-sessions/2026-10-18-title.md) |
 | WL3-047 | Coverage of the night variants, the later variants, and room starts: 24 sweeps of 3,258 movies (six scripts; day 1, night 1, the 85 later variants with their own data, and the 408 day-1 room starts) met the remaining Wario states, block handlers, and the object kinds they reach, among them the bosses (Mad Scienstein, Wormwould, Wolfenboss, Doll Boy, Yellow Belly, Anonster, Scowler, Muddee, Jamano), the Shoot minigame, and the variable cart (its treasure byte traced), all ported; 3,833,825 Wario, 7,721,186 object, and 3,845,136 interaction updates identical, nothing unported, and all 3,258 movies run whole frames to the end; the battles past their starts are left to WL3-048 | [objects](../02-research/objects.md), items 42-78; [wario movement](../02-research/wario-movement.md), items 33-42; [block handlers](../02-research/block-handlers.md), item 8; [emulator oracle](../02-research/emulator-oracle.md), item 17 |
 | WL3-046 | Coverage with power-ups: `make level-movie POWER_UP=N`; with every power-up, the `wander` and `right-attack` sweeps met the smash attack, grabbing and throwing (Wario's side and the objects', `HandleGrabbedObjectCollisions`), Crazy Wario, and interactions `$24`, `$28`, `$3d`, all ported; the six sweeps (150 movies) compare 179,063 Wario updates, 350,391 object slot updates, and 179,653 interaction runs, all identical, and every movie runs whole frames to the end | [wario movement](../02-research/wario-movement.md), items 30-32; [objects](../02-research/objects.md), items 40-41; [emulator oracle](../02-research/emulator-oracle.md), item 17 |
