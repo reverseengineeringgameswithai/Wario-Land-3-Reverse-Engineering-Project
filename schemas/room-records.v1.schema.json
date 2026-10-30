@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wl3pc.invalid/schemas/room-records.v1.schema.json",
+  "title": "Extracted room records, version 1",
+  "description": "Output of tools/wl3pc/extract/rooms.py. ROM-derived: lives only under ignored local/content/. Each decoded room lists the five record bytes read by LoadRoomGfx (named after the WRAM variables that receive them) and the banked source each home loader reads. Source contents are not included.",
+  "type": "object",
+  "required": ["format", "format_version", "marker", "exploratory", "provenance", "pointer_table", "room_count", "record_size", "rooms", "audit"],
+  "$defs": {
+    "banked": {"type": "string", "pattern": "^[0-9a-f]{2,3}:[0-9a-f]{4}$"},
+    "byte": {"type": "integer", "minimum": 0, "maximum": 255},
+    "source": {
+      "type": "object",
+      "required": ["location", "bytes"],
+      "additionalProperties": false,
+      "properties": {
+        "location": {"$ref": "#/$defs/banked"},
+        "bytes": {"type": "integer", "minimum": 0},
+        "compressed_bytes": {"type": "integer", "minimum": 1},
+        "symbol": {"type": ["string", "null"]}
+      }
+    }
+  },
+  "properties": {
+    "format": {"const": "wl3pc.room-records"},
+    "format_version": {"const": 1},
+    "marker": {"type": "string"},
+    "exploratory": {"type": "boolean"},
+    "pointer_table": {"$ref": "#/$defs/banked"},
+    "room_count": {"type": "integer", "minimum": 1},
+    "record_size": {"const": 5},
+    "provenance": {
+      "type": "object",
+      "required": ["rom_sha256", "extractor", "extractor_version", "layout_evidence"],
+      "properties": {"rom_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+    },
+    "rooms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["room", "status"],
+        "properties": {
+          "room": {"type": "integer", "minimum": 0},
+          "status": {"enum": ["decoded", "reset-sentinel"]},
+          "pointer": {"type": "string", "pattern": "^[0-9a-f]{4}$"},
+          "record": {"$ref": "#/$defs/banked"},
+          "block_function_table": {"$ref": "#/$defs/banked"},
+          "fields": {
+            "type": "object",
+            "required": ["block_function_table", "tile_map", "main_tiles", "special_tiles", "palettes"],
+            "additionalProperties": false,
+            "properties": {
+              "block_function_table": {"$ref": "#/$defs/byte"},
+              "tile_map": {"$ref": "#/$defs/byte"},
+              "main_tiles": {"$ref": "#/$defs/byte"},
+              "special_tiles": {"$ref": "#/$defs/byte"},
+              "palettes": {"$ref": "#/$defs/byte"}
+            }
+          },
+          "sources": {
+            "type": "object",
+            "required": ["block_tiles", "block_attributes", "main_tiles", "special_tiles", "palettes"],
+            "additionalProperties": {"$ref": "#/$defs/source"}
+          }
+        },
+        "if": {"properties": {"status": {"const": "decoded"}}},
+        "then": {"required": ["record", "fields", "block_function_table", "sources"]},
+        "else": {"required": ["pointer"]}
+      }
+    },
+    "audit": {
+      "type": "object",
+      "required": ["tile_map_differs_from_block_function_table"],
+      "properties": {
+        "tile_map_differs_from_block_function_table": {"type": "array", "items": {"type": "integer"}},
+        "sources_without_symbol": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

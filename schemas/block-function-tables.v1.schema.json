@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wl3pc.invalid/schemas/block-function-tables.v1.schema.json",
+  "title": "Extracted block function tables, version 1",
+  "description": "Output of tools/wl3pc/extract/block_functions.py. ROM-derived: lives only under ignored local/content/. Handler IDs encode the original bank and address (hBB_AAAA); runtime code must map them to material IDs rather than consume them directly.",
+  "type": "object",
+  "required": ["format", "format_version", "marker", "exploratory", "provenance", "pointer_table", "pointer_count", "entries_per_table", "tables", "handlers", "audit"],
+  "properties": {
+    "format": {"const": "wl3pc.block-function-tables"},
+    "format_version": {"const": 1},
+    "marker": {"type": "string"},
+    "exploratory": {"type": "boolean"},
+    "pointer_table": {"type": "string", "pattern": "^[0-9a-f]{2,3}:[0-9a-f]{4}$"},
+    "pointer_count": {"type": "integer", "minimum": 1},
+    "entries_per_table": {"type": "integer", "minimum": 1},
+    "provenance": {
+      "type": "object",
+      "required": ["rom_sha256", "extractor", "extractor_version", "layout_evidence"],
+      "properties": {"rom_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+    },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["index", "status"],
+        "properties": {
+          "index": {"type": "integer", "minimum": 0},
+          "status": {"enum": ["decoded", "reset-sentinel"]},
+          "location": {"type": "string"},
+          "entries": {"type": "array", "items": {"type": "string", "pattern": "^h[0-9a-f]{2}_[0-9a-f]{4}$"}}
+        }
+      }
+    },
+    "handlers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "location", "used_by_tables"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^h[0-9a-f]{2}_[0-9a-f]{4}$"},
+          "location": {"type": "string"},
+          "used_by_tables": {"type": "array", "items": {"type": "integer"}},
+          "symbol": {"type": ["string", "null"]},
+          "editor_names": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "audit": {"type": "object"}
+  }
+}

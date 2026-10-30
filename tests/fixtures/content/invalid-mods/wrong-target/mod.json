@@ -1,0 +1,1 @@
+{"format": "wl3pc.mod", "format_version": 1, "id": "wrong-target", "title": "Targets another pack", "target_pack": "some-other-pack", "license": "test fixture", "movement": {"gravity": 1}}

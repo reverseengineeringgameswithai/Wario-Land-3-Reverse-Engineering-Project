@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wl3pc.invalid/schemas/movement.v1.schema.json",
+  "title": "WL3PC movement parameters, version 1",
+  "description": "Integer parameters for the tick-based player simulation. Velocities are subpixels per tick; accelerations are subpixels per tick per tick. `provisional: true` marks values with no original-game evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "format_version", "provisional", "source", "subpixels_per_pixel", "walk_accel", "walk_decel", "walk_max", "gravity", "jump_velocity", "max_fall", "body_width_px", "body_height_px"],
+  "properties": {
+    "format": {"const": "wl3pc.movement"},
+    "format_version": {"const": 1},
+    "provisional": {"type": "boolean"},
+    "source": {"type": "string", "minLength": 1},
+    "subpixels_per_pixel": {"type": "integer", "minimum": 1, "maximum": 256},
+    "walk_accel": {"type": "integer", "minimum": 0, "maximum": 4096},
+    "walk_decel": {"type": "integer", "minimum": 0, "maximum": 4096},
+    "walk_max": {"type": "integer", "minimum": 0, "maximum": 4096},
+    "gravity": {"type": "integer", "minimum": 0, "maximum": 4096},
+    "jump_velocity": {"type": "integer", "minimum": -4096, "maximum": 0},
+    "max_fall": {"type": "integer", "minimum": 1, "maximum": 4096},
+    "body_width_px": {"type": "integer", "minimum": 1, "maximum": 256},
+    "body_height_px": {"type": "integer", "minimum": 1, "maximum": 256}
+  }
+}

@@ -1,0 +1,1602 @@
+{
+  "description": "From power-on (PyBoy's boot ROM, empty cartridge RAM) to Out of the Woods, day 1, after the level starts. Policy: A for 2 ticks every 60 ticks (B in the temple dialogue); on the map, wait 30, Left for 4, wait 90, A for 2; then 60 idle ticks.",
+  "emulator": {
+    "cgb": true,
+    "name": "PyBoy",
+    "sound_emulated": true,
+    "version": "2.7.0"
+  },
+  "expect": {
+    "wLevel": 0,
+    "wLevelRoomID": 0,
+    "wRoom": 1,
+    "wState": 2,
+    "wSubState": 3,
+    "wWarioState": 0,
+    "wWarioXPos": 56,
+    "wWarioYPos": 752
+  },
+  "format": "wl3pc.oracle-route",
+  "format_version": 2,
+  "id": "ootw-day1-start",
+  "input": {
+    "description": "Power-on to Out of the Woods, day 1, Wario idle in ROOM_001",
+    "events": [
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 0
+      },
+      {
+        "held": [],
+        "tick": 2
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 60
+      },
+      {
+        "held": [],
+        "tick": 62
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 120
+      },
+      {
+        "held": [],
+        "tick": 122
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 180
+      },
+      {
+        "held": [],
+        "tick": 182
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 240
+      },
+      {
+        "held": [],
+        "tick": 242
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 300
+      },
+      {
+        "held": [],
+        "tick": 302
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 360
+      },
+      {
+        "held": [],
+        "tick": 362
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 420
+      },
+      {
+        "held": [],
+        "tick": 422
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 480
+      },
+      {
+        "held": [],
+        "tick": 482
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 540
+      },
+      {
+        "held": [],
+        "tick": 542
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 600
+      },
+      {
+        "held": [],
+        "tick": 602
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 660
+      },
+      {
+        "held": [],
+        "tick": 662
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 720
+      },
+      {
+        "held": [],
+        "tick": 722
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 780
+      },
+      {
+        "held": [],
+        "tick": 782
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 840
+      },
+      {
+        "held": [],
+        "tick": 842
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 900
+      },
+      {
+        "held": [],
+        "tick": 902
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 960
+      },
+      {
+        "held": [],
+        "tick": 962
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1020
+      },
+      {
+        "held": [],
+        "tick": 1022
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1080
+      },
+      {
+        "held": [],
+        "tick": 1082
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1140
+      },
+      {
+        "held": [],
+        "tick": 1142
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1200
+      },
+      {
+        "held": [],
+        "tick": 1202
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1260
+      },
+      {
+        "held": [],
+        "tick": 1262
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1320
+      },
+      {
+        "held": [],
+        "tick": 1322
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1380
+      },
+      {
+        "held": [],
+        "tick": 1382
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1440
+      },
+      {
+        "held": [],
+        "tick": 1442
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1500
+      },
+      {
+        "held": [],
+        "tick": 1502
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1560
+      },
+      {
+        "held": [],
+        "tick": 1562
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1620
+      },
+      {
+        "held": [],
+        "tick": 1622
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1680
+      },
+      {
+        "held": [],
+        "tick": 1682
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1740
+      },
+      {
+        "held": [],
+        "tick": 1742
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1800
+      },
+      {
+        "held": [],
+        "tick": 1802
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1860
+      },
+      {
+        "held": [],
+        "tick": 1862
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1920
+      },
+      {
+        "held": [],
+        "tick": 1922
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 1980
+      },
+      {
+        "held": [],
+        "tick": 1982
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2040
+      },
+      {
+        "held": [],
+        "tick": 2042
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2100
+      },
+      {
+        "held": [],
+        "tick": 2102
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2160
+      },
+      {
+        "held": [],
+        "tick": 2162
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2220
+      },
+      {
+        "held": [],
+        "tick": 2222
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2280
+      },
+      {
+        "held": [],
+        "tick": 2282
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2340
+      },
+      {
+        "held": [],
+        "tick": 2342
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2400
+      },
+      {
+        "held": [],
+        "tick": 2402
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2460
+      },
+      {
+        "held": [],
+        "tick": 2462
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2520
+      },
+      {
+        "held": [],
+        "tick": 2522
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2580
+      },
+      {
+        "held": [],
+        "tick": 2582
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2640
+      },
+      {
+        "held": [],
+        "tick": 2642
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2700
+      },
+      {
+        "held": [],
+        "tick": 2702
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2760
+      },
+      {
+        "held": [],
+        "tick": 2762
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2820
+      },
+      {
+        "held": [],
+        "tick": 2822
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2880
+      },
+      {
+        "held": [],
+        "tick": 2882
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 2940
+      },
+      {
+        "held": [],
+        "tick": 2942
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3000
+      },
+      {
+        "held": [],
+        "tick": 3002
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3060
+      },
+      {
+        "held": [],
+        "tick": 3062
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3120
+      },
+      {
+        "held": [],
+        "tick": 3122
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3180
+      },
+      {
+        "held": [],
+        "tick": 3182
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3240
+      },
+      {
+        "held": [],
+        "tick": 3242
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3300
+      },
+      {
+        "held": [],
+        "tick": 3302
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3360
+      },
+      {
+        "held": [],
+        "tick": 3362
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3420
+      },
+      {
+        "held": [],
+        "tick": 3422
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3480
+      },
+      {
+        "held": [],
+        "tick": 3482
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3540
+      },
+      {
+        "held": [],
+        "tick": 3542
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3600
+      },
+      {
+        "held": [],
+        "tick": 3602
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3660
+      },
+      {
+        "held": [],
+        "tick": 3662
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3720
+      },
+      {
+        "held": [],
+        "tick": 3722
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3780
+      },
+      {
+        "held": [],
+        "tick": 3782
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3840
+      },
+      {
+        "held": [],
+        "tick": 3842
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3900
+      },
+      {
+        "held": [],
+        "tick": 3902
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 3960
+      },
+      {
+        "held": [],
+        "tick": 3962
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4020
+      },
+      {
+        "held": [],
+        "tick": 4022
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4080
+      },
+      {
+        "held": [],
+        "tick": 4082
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4140
+      },
+      {
+        "held": [],
+        "tick": 4142
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4200
+      },
+      {
+        "held": [],
+        "tick": 4202
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4260
+      },
+      {
+        "held": [],
+        "tick": 4262
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4320
+      },
+      {
+        "held": [],
+        "tick": 4322
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4380
+      },
+      {
+        "held": [],
+        "tick": 4382
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4440
+      },
+      {
+        "held": [],
+        "tick": 4442
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4500
+      },
+      {
+        "held": [],
+        "tick": 4502
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4560
+      },
+      {
+        "held": [],
+        "tick": 4562
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4620
+      },
+      {
+        "held": [],
+        "tick": 4622
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4680
+      },
+      {
+        "held": [],
+        "tick": 4682
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4740
+      },
+      {
+        "held": [],
+        "tick": 4742
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4800
+      },
+      {
+        "held": [],
+        "tick": 4802
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4860
+      },
+      {
+        "held": [],
+        "tick": 4862
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4920
+      },
+      {
+        "held": [],
+        "tick": 4922
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 4980
+      },
+      {
+        "held": [],
+        "tick": 4982
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5040
+      },
+      {
+        "held": [],
+        "tick": 5042
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5100
+      },
+      {
+        "held": [],
+        "tick": 5102
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5160
+      },
+      {
+        "held": [],
+        "tick": 5162
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5220
+      },
+      {
+        "held": [],
+        "tick": 5222
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5280
+      },
+      {
+        "held": [],
+        "tick": 5282
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5340
+      },
+      {
+        "held": [],
+        "tick": 5342
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5400
+      },
+      {
+        "held": [],
+        "tick": 5402
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5460
+      },
+      {
+        "held": [],
+        "tick": 5462
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5520
+      },
+      {
+        "held": [],
+        "tick": 5522
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5580
+      },
+      {
+        "held": [],
+        "tick": 5582
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5640
+      },
+      {
+        "held": [],
+        "tick": 5642
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5700
+      },
+      {
+        "held": [],
+        "tick": 5702
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5760
+      },
+      {
+        "held": [],
+        "tick": 5762
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5820
+      },
+      {
+        "held": [],
+        "tick": 5822
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5880
+      },
+      {
+        "held": [],
+        "tick": 5882
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 5940
+      },
+      {
+        "held": [],
+        "tick": 5942
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6000
+      },
+      {
+        "held": [],
+        "tick": 6002
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6060
+      },
+      {
+        "held": [],
+        "tick": 6062
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6120
+      },
+      {
+        "held": [],
+        "tick": 6122
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6180
+      },
+      {
+        "held": [],
+        "tick": 6182
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6240
+      },
+      {
+        "held": [],
+        "tick": 6242
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6300
+      },
+      {
+        "held": [],
+        "tick": 6302
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6360
+      },
+      {
+        "held": [],
+        "tick": 6362
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6420
+      },
+      {
+        "held": [],
+        "tick": 6422
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6480
+      },
+      {
+        "held": [],
+        "tick": 6482
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6540
+      },
+      {
+        "held": [],
+        "tick": 6542
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6600
+      },
+      {
+        "held": [],
+        "tick": 6602
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6660
+      },
+      {
+        "held": [],
+        "tick": 6662
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6720
+      },
+      {
+        "held": [],
+        "tick": 6722
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6780
+      },
+      {
+        "held": [],
+        "tick": 6782
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6840
+      },
+      {
+        "held": [],
+        "tick": 6842
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6900
+      },
+      {
+        "held": [],
+        "tick": 6902
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 6960
+      },
+      {
+        "held": [],
+        "tick": 6962
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7020
+      },
+      {
+        "held": [],
+        "tick": 7022
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7080
+      },
+      {
+        "held": [],
+        "tick": 7082
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7140
+      },
+      {
+        "held": [],
+        "tick": 7142
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7200
+      },
+      {
+        "held": [],
+        "tick": 7202
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7260
+      },
+      {
+        "held": [],
+        "tick": 7262
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7320
+      },
+      {
+        "held": [],
+        "tick": 7322
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7380
+      },
+      {
+        "held": [],
+        "tick": 7382
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7440
+      },
+      {
+        "held": [],
+        "tick": 7442
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7500
+      },
+      {
+        "held": [],
+        "tick": 7502
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7560
+      },
+      {
+        "held": [],
+        "tick": 7562
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7620
+      },
+      {
+        "held": [],
+        "tick": 7622
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7680
+      },
+      {
+        "held": [],
+        "tick": 7682
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7740
+      },
+      {
+        "held": [],
+        "tick": 7742
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7800
+      },
+      {
+        "held": [],
+        "tick": 7802
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7860
+      },
+      {
+        "held": [],
+        "tick": 7862
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7920
+      },
+      {
+        "held": [],
+        "tick": 7922
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 7980
+      },
+      {
+        "held": [],
+        "tick": 7982
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8040
+      },
+      {
+        "held": [],
+        "tick": 8042
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8100
+      },
+      {
+        "held": [],
+        "tick": 8102
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8160
+      },
+      {
+        "held": [],
+        "tick": 8162
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8220
+      },
+      {
+        "held": [],
+        "tick": 8222
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8280
+      },
+      {
+        "held": [],
+        "tick": 8282
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8340
+      },
+      {
+        "held": [],
+        "tick": 8342
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8400
+      },
+      {
+        "held": [],
+        "tick": 8402
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8460
+      },
+      {
+        "held": [],
+        "tick": 8462
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8520
+      },
+      {
+        "held": [],
+        "tick": 8522
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8580
+      },
+      {
+        "held": [],
+        "tick": 8582
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8640
+      },
+      {
+        "held": [],
+        "tick": 8642
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8700
+      },
+      {
+        "held": [],
+        "tick": 8702
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8760
+      },
+      {
+        "held": [],
+        "tick": 8762
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8820
+      },
+      {
+        "held": [],
+        "tick": 8822
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8880
+      },
+      {
+        "held": [],
+        "tick": 8882
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 8940
+      },
+      {
+        "held": [],
+        "tick": 8942
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 9000
+      },
+      {
+        "held": [],
+        "tick": 9002
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 9060
+      },
+      {
+        "held": [],
+        "tick": 9062
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 9120
+      },
+      {
+        "held": [],
+        "tick": 9122
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 9180
+      },
+      {
+        "held": [],
+        "tick": 9182
+      },
+      {
+        "held": [
+          "left"
+        ],
+        "tick": 9215
+      },
+      {
+        "held": [],
+        "tick": 9219
+      },
+      {
+        "held": [
+          "a"
+        ],
+        "tick": 9309
+      },
+      {
+        "held": [],
+        "tick": 9311
+      }
+    ],
+    "format": "wl3pc.input-trace",
+    "format_version": 1,
+    "ticks": 9453
+  },
+  "ram_sha256": "e2e5a5a8b813f470c55be699e3037dd2069e9b72ea07e891d173511ce390b8e2",
+  "rom_sha256": "b625ed03e7553cc29ebc4203d919838312fc9f9f85915f5d2eddfe14aec77406",
+  "start": {
+    "boot_rom": {
+      "sha256": "6cc8fc260cc370d29603e31406e33ba6448292e19abe83bf0fb62bb35bdeb9ce",
+      "source": "pyboy-bundled"
+    },
+    "cartridge_ram": {
+      "source": "empty"
+    },
+    "kind": "power-on"
+  }
+}

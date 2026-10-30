@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wl3pc.invalid/schemas/block-materials.v1.schema.json",
+  "title": "Per-table block materials, version 1",
+  "description": "Output of tools/wl3pc/extract/block_materials.py. ROM-derived: lives only under ignored local/content/. Each decoded block function table lists, per block ID, a runtime material name and behaviour flags from the tracked handler mapping. Blocks whose handler has no mapping row are `unknown`, never `empty`.",
+  "type": "object",
+  "required": ["format", "format_version", "marker", "exploratory", "provenance", "entries_per_table", "tables", "audit"],
+  "$defs": {
+    "block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["material", "flags"],
+      "properties": {
+        "material": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+        "flags": {"type": "array", "items": {"type": "string"}},
+        "replacement_block": {"type": "integer", "minimum": 0, "maximum": 127},
+        "room_transition": {"type": "integer", "minimum": 0, "maximum": 255}
+      }
+    }
+  },
+  "properties": {
+    "format": {"const": "wl3pc.block-materials"},
+    "format_version": {"const": 1},
+    "marker": {"type": "string"},
+    "exploratory": {"type": "boolean"},
+    "entries_per_table": {"type": "integer", "minimum": 1},
+    "provenance": {
+      "type": "object",
+      "required": ["rom_sha256", "extractor", "extractor_version", "mapping_sha256"],
+      "properties": {
+        "rom_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "mapping_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["index", "status"],
+        "properties": {
+          "index": {"type": "integer", "minimum": 0},
+          "status": {"enum": ["decoded", "reset-sentinel"]},
+          "unknown_blocks": {"type": "integer", "minimum": 0},
+          "blocks": {"type": "array", "items": {"$ref": "#/$defs/block"}}
+        },
+        "if": {"properties": {"status": {"const": "decoded"}}},
+        "then": {"required": ["unknown_blocks", "blocks"]}
+      }
+    },
+    "audit": {
+      "type": "object",
+      "required": ["unmapped_handlers_used", "mapped_handlers_not_found", "tables_fully_mapped"],
+      "properties": {
+        "unmapped_handlers_used": {"type": "array", "items": {"type": "string"}},
+        "mapped_handlers_not_found": {"type": "array", "items": {"type": "string"}},
+        "tables_fully_mapped": {"type": "array", "items": {"type": "integer"}}
+      }
+    }
+  }
+}

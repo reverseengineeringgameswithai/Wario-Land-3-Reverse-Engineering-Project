@@ -1,0 +1,297 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wl3pc.invalid/schemas/oracle-capture.v2.schema.json",
+  "title": "Emulator oracle capture, version 2",
+  "description": "Per-tick samples of named WRAM variables and a SHA-256 of all RAM after each tick, from a defined start under an input trace. ROM-derived: lives only under ignored local/captures/. Multi-byte samples are big-endian (the game stores them high byte first). Version 2 moves the boot ROM and cartridge RAM into the start and adds save-state starts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "format_version",
+    "marker",
+    "rom_sha256",
+    "emulator",
+    "start",
+    "input",
+    "samples",
+    "rows",
+    "ram_sha256",
+    "stream_sha256"
+  ],
+  "properties": {
+    "format": {
+      "const": "wl3pc.oracle-capture"
+    },
+    "format_version": {
+      "const": 2
+    },
+    "marker": {
+      "type": "string"
+    },
+    "rom_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "emulator": {
+      "$ref": "#/$defs/emulator"
+    },
+    "start": {
+      "$ref": "#/$defs/start"
+    },
+    "input": {
+      "$ref": "#/$defs/input"
+    },
+    "samples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "address",
+          "size"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{4}$"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          }
+        }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "ram_sha256": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sha256"
+      }
+    },
+    "stream_sha256": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "emulator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "cgb",
+        "sound_emulated"
+      ],
+      "properties": {
+        "name": {
+          "const": "PyBoy"
+        },
+        "version": {
+          "type": "string"
+        },
+        "cgb": {
+          "const": true
+        },
+        "sound_emulated": {
+          "type": "boolean"
+        }
+      }
+    },
+    "boot_rom": {
+      "description": "PyBoy's own CGB boot ROM, or the user's dump from the local store; named by SHA-256.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "sha256"
+      ],
+      "properties": {
+        "source": {
+          "enum": [
+            "pyboy-bundled",
+            "file"
+          ]
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "cartridge_ram": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source"
+          ],
+          "properties": {
+            "source": {
+              "const": "empty"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source",
+            "sha256"
+          ],
+          "properties": {
+            "source": {
+              "const": "file"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        }
+      ]
+    },
+    "power_on": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "boot_rom",
+        "cartridge_ram"
+      ],
+      "properties": {
+        "kind": {
+          "const": "power-on"
+        },
+        "boot_rom": {
+          "$ref": "#/$defs/boot_rom"
+        },
+        "cartridge_ram": {
+          "$ref": "#/$defs/cartridge_ram"
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id",
+        "sha256"
+      ],
+      "properties": {
+        "kind": {
+          "const": "route"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "state": {
+      "description": "A PyBoy save state from the local store. `origin`, when known, rebuilds it: replay `input` from `start` and the memory digest must equal `ram_sha256`.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "sha256",
+        "boot_rom",
+        "origin"
+      ],
+      "properties": {
+        "kind": {
+          "const": "state"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "boot_rom": {
+          "$ref": "#/$defs/boot_rom"
+        },
+        "origin": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "start",
+                "frame",
+                "movie",
+                "ram_sha256",
+                "input"
+              ],
+              "properties": {
+                "start": {
+                  "$ref": "#/$defs/start"
+                },
+                "frame": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "movie": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "ram_sha256": {
+                  "$ref": "#/$defs/sha256"
+                },
+                "input": {
+                  "oneOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "$ref": "input-trace.v1.schema.json"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "start": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/power_on"
+        },
+        {
+          "$ref": "#/$defs/route"
+        },
+        {
+          "$ref": "#/$defs/state"
+        }
+      ]
+    },
+    "input": {
+      "$ref": "input-trace.v1.schema.json"
+    }
+  }
+}

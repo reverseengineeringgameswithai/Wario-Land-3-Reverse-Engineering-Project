@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wl3pc.invalid/schemas/block-handler-materials.v1.schema.json",
+  "title": "Block handler to runtime material mapping, version 1",
+  "description": "Project-original classification of original block handlers (tools/wl3pc/data/block_handler_materials.v1.json). Contains no ROM bytes: handler IDs name a bank and address, and every row cites the code it was read from. Handlers without a row map to `unknown`, which the runtime refuses.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "format_version", "evidence_base", "materials", "flags", "handlers"],
+  "properties": {
+    "format": {"const": "wl3pc.block-handler-materials"},
+    "format_version": {"const": 1},
+    "evidence_base": {
+      "type": "object",
+      "required": ["repository", "commit", "file", "research_note"],
+      "properties": {"commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}}
+    },
+    "materials": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {"pattern": "^[a-z][a-z0-9-]*$", "not": {"const": "unknown"}},
+      "additionalProperties": {"type": "string", "minLength": 1}
+    },
+    "flags": {
+      "type": "object",
+      "propertyNames": {"pattern": "^[a-z][a-z0-9-]*$"},
+      "additionalProperties": {"type": "string", "minLength": 1}
+    },
+    "handlers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "symbol", "material", "flags", "evidence"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^h[0-9a-f]{2}_[0-9a-f]{4}$"},
+          "symbol": {"type": "string", "minLength": 1},
+          "material": {"type": "string"},
+          "flags": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+          "replacement_block": {"type": "integer", "minimum": 0, "maximum": 127},
+          "room_transition": {"type": "integer", "minimum": 0, "maximum": 255},
+          "evidence": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

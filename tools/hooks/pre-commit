@@ -1,0 +1,5 @@
+#!/bin/sh
+# Optional WL3PC pre-commit hook (install with `make install-hook`).
+# Refuses protected inputs, ROM payloads, and generated files in the index.
+root=$(git rev-parse --show-toplevel) || exit 1
+PYTHONPATH="$root/tools" exec python3 -m wl3pc.repo_check --root "$root"

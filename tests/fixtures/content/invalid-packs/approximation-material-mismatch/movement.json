@@ -1,0 +1,1 @@
+{"format": "wl3pc.movement", "format_version": 1, "provisional": true, "source": "test fixture", "subpixels_per_pixel": 16, "walk_accel": 2, "walk_decel": 4, "walk_max": 16, "gravity": 4, "jump_velocity": -72, "max_fall": 64, "body_width_px": 12, "body_height_px": 24}

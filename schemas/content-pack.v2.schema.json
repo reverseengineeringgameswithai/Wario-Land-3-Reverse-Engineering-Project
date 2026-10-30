@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wl3pc.invalid/schemas/content-pack.v2.schema.json",
+  "title": "WL3PC content pack manifest, version 2",
+  "description": "Version 1 plus a required list of labelled approximations (ADR-0002): every place where the pack knowingly behaves differently from the original says so. Paths are relative to the manifest and must stay inside the pack directory. Semantic rules (a subject must name an existing room legend entry whose material equals `behaves_as`; subjects are unique) are enforced by tools/wl3pc/content.py and the Godot ContentLoader.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "format_version", "id", "title", "origin", "license", "movement", "rooms", "start", "approximations"],
+  "properties": {
+    "format": {"const": "wl3pc.content-pack"},
+    "format_version": {"const": 2},
+    "id": {"$ref": "#/$defs/id"},
+    "title": {"type": "string", "minLength": 1, "maxLength": 200},
+    "origin": {"enum": ["synthetic", "original-extracted"]},
+    "license": {"type": "string", "minLength": 1},
+    "movement": {"$ref": "#/$defs/relpath"},
+    "rooms": {"type": "array", "minItems": 1, "maxItems": 4096, "items": {"$ref": "#/$defs/relpath"}},
+    "start": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["room", "x_px", "y_px"],
+      "properties": {
+        "room": {"$ref": "#/$defs/id"},
+        "x_px": {"type": "integer", "minimum": 0},
+        "y_px": {"type": "integer", "minimum": 0}
+      }
+    },
+    "approximations": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["subject", "behaves_as", "original"],
+        "properties": {
+          "subject": {"type": "string", "pattern": "^(start|movement|room/[a-z0-9][a-z0-9-]{0,63}/legend/.)$"},
+          "behaves_as": {"type": "string", "minLength": 1, "maxLength": 500},
+          "original": {"type": "string", "minLength": 1, "maxLength": 500},
+          "task": {"type": "string", "pattern": "^WL3-[0-9]{3}$"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+    "relpath": {"type": "string", "pattern": "^(?!/)(?!.*(^|/)\\.\\.(/|$))[A-Za-z0-9_./-]+\\.json$"}
+  }
+}

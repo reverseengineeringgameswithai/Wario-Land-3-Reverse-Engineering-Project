@@ -1,0 +1,11 @@
+{
+  "format": "wl3pc.content-pack",
+  "format_version": 1,
+  "id": "synthetic-testbed",
+  "title": "Synthetic movement testbed",
+  "origin": "synthetic",
+  "license": "Project-original synthetic data; see LICENSES.md",
+  "movement": "movement.json",
+  "rooms": ["rooms/testbed.json"],
+  "start": {"room": "testbed", "x_px": 24, "y_px": 152}
+}

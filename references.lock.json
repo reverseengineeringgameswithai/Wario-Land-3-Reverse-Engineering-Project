@@ -1,0 +1,66 @@
+{
+  "lock_version": 1,
+  "updated": "2026-10-01",
+  "checkout_root": "external",
+  "policy": "Ignored local checkouts pinned by full commit ID. Never vendored, never submodules, never reset when modified. See docs/02-research/sources.md.",
+  "references": [
+    {
+      "id": "electrodeoxys-warioland3",
+      "url": "https://github.com/ElectroDeoxys/warioland3.git",
+      "path": "external/ElectroDeoxys_warioland3",
+      "commit": "560fce6faf50df4a48c0448f00105b6075f8f231",
+      "commit_date": "2026-08-17T00:20:00+01:00",
+      "role": "primary disassembly; symbol and format evidence; reference build",
+      "archived": false,
+      "license": "none declared (no LICENSE file; GitHub reports no license)",
+      "use": "read, cite by commit/file/symbol, build locally in build/refbuild; do not copy source or assets into this repository",
+      "build": {
+        "toolchain": "rgbds v1.0.0",
+        "command": "make RGBDS=<rgbds>/bin/ DEBUG=1 compare",
+        "result": "byte-identical to the identified ROM (sha256 b625ed03e7553cc29ebc4203d919838312fc9f9f85915f5d2eddfe14aec77406)",
+        "verified": "2026-10-01"
+      }
+    },
+    {
+      "id": "froggestspirit-wland3",
+      "url": "https://github.com/froggestspirit/wland3.git",
+      "path": "external/froggestspirit_wland3",
+      "commit": "29f1df63322efc635074c532e335896edf630515",
+      "commit_date": "2020-08-20T11:09:07-04:00",
+      "role": "secondary disassembly; comparison only",
+      "archived": true,
+      "license": "none declared (no LICENSE file; GitHub reports no license)",
+      "use": "read and cite only; not built (requires RGBDS v0.4.1 and an INCBIN baserom)",
+      "build": null
+    },
+    {
+      "id": "nearoo-wario-land-3",
+      "url": "https://github.com/Nearoo/Wario-Land-3.git",
+      "path": "external/Nearoo_Wario-Land-3",
+      "commit": "ecd96f38b4d7e28609588352ef53520ba3fcaede",
+      "commit_date": "2018-10-15T23:51:48+02:00",
+      "role": "Pygame remake; implementation comparison only, not evidence of original behaviour",
+      "archived": false,
+      "license": "MIT (LICENSE file) for the author's own resources; README excludes all graphics",
+      "use": "may read; do not copy graphics; any code reuse would need MIT attribution and a fresh review",
+      "build": null
+    },
+    {
+      "id": "gbdev-rgbds",
+      "url": "https://github.com/gbdev/rgbds.git",
+      "path": "external/gbdev_rgbds",
+      "commit": "fb9fa6038cfc39a448f043806219a58c86daf930",
+      "tag": "v1.0.0",
+      "commit_date": "2025-10-31T20:19:24-04:00",
+      "role": "assembler toolchain for the reference build",
+      "archived": false,
+      "license": "MIT (LICENSE file)",
+      "use": "built from source into local/toolchain/rgbds-1.0.0",
+      "build": {
+        "command": "make && make install PREFIX=local/toolchain/rgbds-1.0.0",
+        "result": "rgbasm/rgblink/rgbfix/rgbgfx report v1.0.0",
+        "verified": "2026-10-01"
+      }
+    }
+  ]
+}

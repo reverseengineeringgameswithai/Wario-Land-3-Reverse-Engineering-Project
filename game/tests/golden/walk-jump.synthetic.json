@@ -1,0 +1,19 @@
+{
+  "content_sha256": "ac9656ac945f182ec775841cd74e1c0de419f83eac86d74a32e83cdceba4549c",
+  "final": {
+    "facing": 1,
+    "on_ground": true,
+    "prev_held": 0,
+    "tick": 220,
+    "vx": 0,
+    "vy": 0,
+    "x": 3040,
+    "y": 2432
+  },
+  "mods": [],
+  "note": "Regression snapshot of the PROVISIONAL synthetic prototype, recorded 2026-10-01 with Godot 4.7.2. Not original-game evidence.",
+  "pack": "synthetic-testbed",
+  "state_stream_sha256": "15426def03066fdb93ec49c8cad9d850919b15052bf6b9ed8e3c88f8c90d07d9",
+  "ticks": 220,
+  "trace": "res://assets/traces/walk-jump.json"
+}

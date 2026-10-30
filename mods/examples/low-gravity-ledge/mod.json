@@ -1,0 +1,12 @@
+{
+  "format": "wl3pc.mod",
+  "format_version": 1,
+  "id": "low-gravity-ledge",
+  "title": "Low gravity and an extra ledge (example)",
+  "target_pack": "synthetic-testbed",
+  "license": "Project-original example; see LICENSES.md",
+  "movement": {"gravity": 2, "jump_velocity": -56},
+  "tile_patches": [
+    {"room": "testbed", "x": 2, "y": 5, "rows": ["===="]}
+  ]
+}

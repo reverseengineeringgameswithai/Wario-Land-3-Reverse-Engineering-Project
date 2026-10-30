@@ -1,0 +1,61 @@
+# WL3PC ignore rules. Keep these narrow; see docs/04-development/workflow.md.
+# Ignoring a path does not untrack a file that is already in the index.
+
+# --- Protected user inputs (never tracked) ---
+/Original_ROM/
+/WL3 Editor/
+
+# --- ROM images and emulator state anywhere in the tree ---
+*.gb
+*.gbc
+*.sgb
+*.sav
+*.srm
+*.rtc
+*.state
+*.ss[0-9]
+*.sn[0-9]
+
+# --- Ignored working areas ---
+/external/
+/local/
+/build/
+/dist/
+
+# --- Python ---
+/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+
+# --- Godot: editor cache only; project metadata stays trackable ---
+/game/.godot/
+/game/export_credentials.cfg
+*.translation
+
+# --- Obsidian: track only the allowlisted shared settings ---
+/docs/.obsidian/*
+!/docs/.obsidian/app.json
+!/docs/.obsidian/appearance.json
+!/docs/.obsidian/core-plugins.json
+!/docs/.obsidian/templates.json
+/docs/.trash/
+
+# --- Agent and editor private state ---
+/.claude/settings.local.json
+/.claude/*.local.*
+.env
+.env.*
+*.pem
+*.key
+
+# --- OS and editor noise ---
+.DS_Store
+Thumbs.db
+*~
+*.swp
+.idea/
+.vscode/

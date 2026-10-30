@@ -1,0 +1,1 @@
+{"format": "wl3pc.mod", "format_version": 1, "id": "patch-out-of-bounds", "title": "Patch past the right edge", "target_pack": "synthetic-testbed", "license": "test fixture", "tile_patches": [{"room": "testbed", "x": 22, "y": 3, "rows": ["===="]}]}

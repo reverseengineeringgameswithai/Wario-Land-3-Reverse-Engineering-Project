@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wl3pc.invalid/schemas/mod.v1.schema.json",
+  "title": "WL3PC data-only mod, version 1",
+  "description": "Overrides applied on top of an immutable base pack. Mods are applied in ascending `id` order; later mods win. No scripts are loaded.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "format_version", "id", "title", "target_pack", "license"],
+  "properties": {
+    "format": {"const": "wl3pc.mod"},
+    "format_version": {"const": 1},
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+    "title": {"type": "string", "minLength": 1, "maxLength": 200},
+    "target_pack": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+    "license": {"type": "string", "minLength": 1},
+    "movement": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "walk_accel": {"type": "integer", "minimum": 0, "maximum": 4096},
+        "walk_decel": {"type": "integer", "minimum": 0, "maximum": 4096},
+        "walk_max": {"type": "integer", "minimum": 0, "maximum": 4096},
+        "gravity": {"type": "integer", "minimum": 0, "maximum": 4096},
+        "jump_velocity": {"type": "integer", "minimum": -4096, "maximum": 0},
+        "max_fall": {"type": "integer", "minimum": 1, "maximum": 4096}
+      }
+    },
+    "tile_patches": {
+      "type": "array",
+      "maxItems": 1024,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["room", "x", "y", "rows"],
+        "properties": {
+          "room": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+          "x": {"type": "integer", "minimum": 0},
+          "y": {"type": "integer", "minimum": 0},
+          "rows": {"type": "array", "minItems": 1, "maxItems": 4096, "items": {"type": "string", "minLength": 1, "maxLength": 4096}}
+        }
+      }
+    }
+  }
+}

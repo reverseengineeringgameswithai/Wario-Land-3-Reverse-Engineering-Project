@@ -1,0 +1,1 @@
+{"format": "wl3pc.content-pack", "format_version": 1, "id": "start-outside", "title": "Start outside room", "origin": "synthetic", "license": "test fixture", "movement": "movement.json", "rooms": ["rooms/r.json"], "start": {"room": "r", "x_px": 60, "y_px": 16}}

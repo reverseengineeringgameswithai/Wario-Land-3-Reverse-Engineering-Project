@@ -1,0 +1,702 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wl3pc.invalid/schemas/oracle-wario-trace.v1.schema.json",
+  "title": "Emulator oracle Wario trace, version 1",
+  "description": "Named WRAM and HRAM variables that Wario's movement reads or writes, recorded before the first tick (frames[0]) and after every tick (frames[t + 1] after tick t), and the level block map in SRAM with its changes. Multi-byte values are big-endian, as the game stores them; signed bytes are kept raw (0-255). ROM-derived: lives only under ignored local/captures/. Used by the native movement parity check (WL3-012).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "format_version",
+    "marker",
+    "rom_sha256",
+    "emulator",
+    "start",
+    "input",
+    "variables",
+    "frames",
+    "block_rows",
+    "block_changes",
+    "updates",
+    "camera_updates"
+  ],
+  "properties": {
+    "format": {
+      "const": "wl3pc.oracle-wario-trace"
+    },
+    "format_version": {
+      "const": 1
+    },
+    "marker": {
+      "type": "string"
+    },
+    "rom_sha256": {
+      "$ref": "oracle-capture.v2.schema.json#/$defs/sha256"
+    },
+    "emulator": {
+      "$ref": "oracle-capture.v2.schema.json#/$defs/emulator"
+    },
+    "start": {
+      "$ref": "oracle-capture.v2.schema.json#/$defs/start"
+    },
+    "input": {
+      "$ref": "input-trace.v1.schema.json"
+    },
+    "variables": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "address",
+          "size"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[wh][A-Za-z0-9_]+$"
+          },
+          "address": {
+            "type": "string",
+            "pattern": "^([0-9a-f]{2}:)?[0-9a-f]{4}$"
+          },
+          "size": {
+            "enum": [
+              1,
+              2
+            ]
+          }
+        }
+      }
+    },
+    "frames": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        }
+      }
+    },
+    "block_rows": {
+      "description": "The level block map in SRAM before the first tick: 64 rows of 160 bytes (bit 7 kept; older traces have the 48 decoded rows).",
+      "type": "array",
+      "minItems": 48,
+      "maxItems": 64,
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{320}$"
+      }
+    },
+    "block_gap_rows": {
+      "description": "The 16 bytes after each block-map row in its SRAM page ($a0-$af), which the level's decompressors never write, before the first tick (older traces lack them).",
+      "type": "array",
+      "minItems": 64,
+      "maxItems": 64,
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{32}$"
+      }
+    },
+    "block_changes": {
+      "description": "[frame, row, column, value, seen]: the map byte that differs in frames[frame] from the frame before; `seen` (optional, older traces lack it) is the object checkpoint at which it was first seen during that frame, or 4 at the frame's end.",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer",
+            "minimum": 1
+          },
+          {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 63
+          },
+          {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 159
+          },
+          {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4
+          }
+        ],
+        "items": false,
+        "minItems": 4
+      }
+    },
+    "camera_updates": {
+      "description": "[frame, before, after] for every run of UpdateLevel's camera code: the variables on entry to ClearUnusedVirtualOAM, which precedes it on all three paths, and at UpdateLevel.asm_8229, where it ends (with the Hidden Figure camera at .asm_8227, its jump past it).",
+      "$ref": "#/properties/updates"
+    },
+    "updates": {
+      "description": "[frame, before, after] for every Wario update: the variables on entry to UpdateWarioStates and on entry to UpdateObjects, which UpdateLevel calls next. `frame` is the index of the first sample taken after the update.",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer",
+            "minimum": 1
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            }
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            }
+          }
+        ],
+        "items": false,
+        "minItems": 3
+      }
+    },
+    "object_checkpoints": {
+      "description": "Object slots around UpdateObjects and ProcessInteractions (WL3-035): [frame, checkpoint, variables, objects, particles], where checkpoint 0 is the entry to UpdateObjects, 1 to SetWarioScreenPos (after UpdateObjects), 2 to ProcessInteractions, and 3 to DrawObjects_NoPriority (after it); variables follow `variables`, and objects is WRAM bank 1 $d000-$d162 in hex (older traces to $d15f): wObjects (8 slots of 32 bytes), wCurObj, wObjDataPointers, the objects' globals, and the hidden figure's fight's; particles is $cca0-$cce1 in hex: wParticles (4 slots of 16 bytes), wNumParticles, and wCurParticleIndex.",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer",
+            "minimum": 0
+          },
+          {
+            "enum": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            }
+          },
+          {
+            "type": "string",
+            "pattern": "^([0-9a-f]{704}|[0-9a-f]{710})$"
+          },
+          {
+            "type": "string",
+            "pattern": "^[0-9a-f]{132}$"
+          }
+        ],
+        "minItems": 5,
+        "maxItems": 5
+      }
+    },
+    "object_rows": {
+      "description": "The object map before the first tick (WL3-035): 48 rows of the 80 bytes from $b0 of each map page, one nibble a block (the even column in the high nibble).",
+      "type": "array",
+      "minItems": 48,
+      "maxItems": 48,
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{160}$"
+      }
+    },
+    "object_changes": {
+      "description": "[frame, row, byte, value]: an object map byte that differs in frames[frame] from the frame before.",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minItems": 4,
+        "maxItems": 4
+      }
+    },
+    "animation_calls": {
+      "description": "[frame, kind, line]: a call of UpdateRoomAnimatedTiles (kind 0) or UpdateRoomAnimatedPals (1) during the tick that frames[frame] follows, with the rLY value it read (late lines skip the animation).",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minItems": 3,
+        "maxItems": 3
+      }
+    },
+    "golf_loops": {
+      "description": "[frame, loops]: a visit to the golf minigame (not ported) whose first game loop (a call of _GolfStateTable) ran during the tick that frames[frame] follows, and its number of game loops (older traces lack them).",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "golf_variables": {
+      "description": "The variables of each golf_updates entry, in order (older traces lack them); values of more than one byte are big-endian.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "address",
+          "size"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[wh][A-Za-z0-9_]+$"
+          },
+          "address": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{4}$"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          }
+        }
+      }
+    },
+    "golf_updates": {
+      "description": "[frame, values, golf RAM, virtual OAM, rDIV reads]: at each game loop of the golf minigame (a call of _GolfStateTable, during the tick that frames[frame] follows), the golf_variables' values, the golf RAM in WRAMX bank 1 as hex ($d800-$d805 then $db40-$dc9b), wVirtualOAM's 160 bytes as hex, and how many div_reads came before the loop (older traces lack them, the OAM, or the count).",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer",
+            "minimum": 0
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "type": "string",
+            "pattern": "^[0-9a-f]{708}$"
+          },
+          {
+            "type": "string",
+            "pattern": "^[0-9a-f]{320}$"
+          },
+          {
+            "type": "integer",
+            "minimum": 0
+          }
+        ],
+        "minItems": 3,
+        "maxItems": 5
+      }
+    },
+    "golf_vram": {
+      "description": "[golf update, VRAM bank 0, VRAM bank 1]: at every 32nd game loop of a golf visit, both VRAM banks ($8000-$9fff) as hex at the loop's start, with the index of its golf_updates entry (older traces lack them).",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer",
+            "minimum": 0
+          },
+          {
+            "type": "string",
+            "pattern": "^[0-9a-f]{16384}$"
+          },
+          {
+            "type": "string",
+            "pattern": "^[0-9a-f]{16384}$"
+          }
+        ],
+        "minItems": 3,
+        "maxItems": 3
+      }
+    },
+    "golf_screens": {
+      "description": "[golf update, screen]: the screen shown during the golf loop of that golf_updates entry (a golf_vram snapshot's loop), captured at the end of the tick it ran in: 160x144 RGB bytes, gzipped, in base64 (older traces lack them).",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer",
+            "minimum": 0
+          },
+          {
+            "type": "string"
+          }
+        ],
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "golf_ram": {
+      "description": "The golf RAM ranges of each golf_updates entry, in order (WRAM bank, address, size; older traces lack them).",
+      "$ref": "#/$defs/ram_ranges"
+    },
+    "clear_variables": {
+      "description": "The variables of each clear_updates entry, in order (WL3-043).",
+      "$ref": "#/properties/golf_variables"
+    },
+    "clear_ram": {
+      "description": "The RAM ranges of each clear_updates entry, in order: WRAM bank (0 for WRAM0), address, size.",
+      "$ref": "#/$defs/ram_ranges"
+    },
+    "clear_loops": {
+      "description": "[frame, loops]: a visit to the level's clear screen whose first game loop (a call of _ClearScreenStateTable) ran during the tick that frames[frame] follows, and its number of game loops.",
+      "$ref": "#/properties/golf_loops"
+    },
+    "clear_updates": {
+      "description": "[frame, values, RAM, virtual OAM, rDIV reads]: at each game loop of the clear screen (a call of _ClearScreenStateTable), the clear_variables' values, its clear_ram as hex, wVirtualOAM's 160 bytes as hex, and how many div_reads came before the loop (older traces lack the count).",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer",
+            "minimum": 0
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "type": "string",
+            "pattern": "^([0-9a-f]{2})*$"
+          },
+          {
+            "type": "string",
+            "pattern": "^[0-9a-f]{320}$"
+          },
+          {
+            "type": "integer",
+            "minimum": 0
+          }
+        ],
+        "minItems": 4,
+        "maxItems": 5
+      }
+    },
+    "clear_vram": {
+      "description": "[clear update, VRAM bank 0, VRAM bank 1]: at every 32nd game loop of a clear screen visit, both VRAM banks as hex at the loop's start.",
+      "$ref": "#/properties/golf_vram"
+    },
+    "clear_screens": {
+      "description": "[clear update, screen]: the screen shown during the clear screen loop of that clear_updates entry (a clear_vram snapshot's loop), captured at the end of the tick it ran in: 160x144 RGB bytes, gzipped, in base64.",
+      "$ref": "#/properties/golf_screens"
+    },
+    "action_help_variables": {
+      "description": "The variables of each action_help_updates entry, in order (WL3-051).",
+      "$ref": "#/properties/golf_variables"
+    },
+    "action_help_ram": {
+      "description": "The RAM ranges of each action_help_updates entry, in order: WRAM bank (0 for WRAM0), address, size.",
+      "$ref": "#/$defs/ram_ranges"
+    },
+    "action_help_loops": {
+      "description": "[frame, loops]: a visit to Action Help whose first game loop (a call of _ActionHelpStateTable) ran during the tick that frames[frame] follows, and its number of game loops.",
+      "$ref": "#/properties/golf_loops"
+    },
+    "action_help_updates": {
+      "description": "[frame, values, RAM, virtual OAM, rDIV reads]: at each game loop of Action Help (a call of _ActionHelpStateTable), the action_help_variables' values, its action_help_ram as hex, wVirtualOAM's 160 bytes as hex, and how many div_reads came before the loop.",
+      "$ref": "#/properties/clear_updates"
+    },
+    "action_help_vram": {
+      "description": "[Action Help update, VRAM bank 0, VRAM bank 1]: at every 32nd game loop of an Action Help visit, both VRAM banks as hex at the loop's start.",
+      "$ref": "#/properties/golf_vram"
+    },
+    "action_help_screens": {
+      "description": "[Action Help update, screen]: the screen shown during the Action Help loop of that action_help_updates entry (an action_help_vram snapshot's loop), captured at the end of the tick it ran in: 160x144 RGB bytes, gzipped, in base64.",
+      "$ref": "#/properties/golf_screens"
+    },
+    "credits_variables": {
+      "description": "The variables of each credits_updates entry, in order (WL3-052).",
+      "$ref": "#/properties/golf_variables"
+    },
+    "credits_ram": {
+      "description": "The RAM ranges of each credits_updates entry, in order: WRAM bank (0 for WRAM0), address, size.",
+      "$ref": "#/$defs/ram_ranges"
+    },
+    "credits_loops": {
+      "description": "[frame, loops]: a visit to the credits whose first game loop (a call of _CreditsStateTable) ran during the tick that frames[frame] follows, and its number of game loops.",
+      "$ref": "#/properties/golf_loops"
+    },
+    "credits_updates": {
+      "description": "[frame, values, RAM, virtual OAM, rDIV reads]: at each game loop of the credits (a call of _CreditsStateTable), the credits_variables' values, its credits_ram as hex, wVirtualOAM's 160 bytes as hex, and how many div_reads came before the loop.",
+      "$ref": "#/properties/clear_updates"
+    },
+    "credits_vram": {
+      "description": "[credits update, VRAM bank 0, VRAM bank 1]: at every 32nd game loop of a credits visit, both VRAM banks as hex at the loop's start.",
+      "$ref": "#/properties/golf_vram"
+    },
+    "credits_screens": {
+      "description": "[credits update, screen]: the screen shown during the credits loop of that credits_updates entry (a credits_vram snapshot's loop), captured at the end of the tick it ran in: 160x144 RGB bytes, gzipped, in base64.",
+      "$ref": "#/properties/golf_screens"
+    },
+    "game_over_variables": {
+      "description": "The variables of each game_over_updates entry, in order (WL3-052).",
+      "$ref": "#/properties/golf_variables"
+    },
+    "game_over_ram": {
+      "description": "The RAM ranges of each game_over_updates entry, in order: WRAM bank (0 for WRAM0), address, size.",
+      "$ref": "#/$defs/ram_ranges"
+    },
+    "game_over_loops": {
+      "description": "[frame, loops]: a visit to the game over screen whose first game loop (a call of _GameOverStateTable) ran during the tick that frames[frame] follows, and its number of game loops.",
+      "$ref": "#/properties/golf_loops"
+    },
+    "game_over_updates": {
+      "description": "[frame, values, RAM, virtual OAM, rDIV reads]: at each game loop of the game over screen (a call of _GameOverStateTable), the game_over_variables' values, its game_over_ram as hex, wVirtualOAM's 160 bytes as hex, and how many div_reads came before the loop.",
+      "$ref": "#/properties/clear_updates"
+    },
+    "game_over_vram": {
+      "description": "[game_over update, VRAM bank 0, VRAM bank 1]: at every 32nd game loop of a visit to the game over screen, both VRAM banks as hex at the loop's start.",
+      "$ref": "#/properties/golf_vram"
+    },
+    "game_over_screens": {
+      "description": "[game_over update, screen]: the screen shown during the loop of that game_over_updates entry (a game_over_vram snapshot's loop), captured at the end of the tick it ran in: 160x144 RGB bytes, gzipped, in base64.",
+      "$ref": "#/properties/golf_screens"
+    },
+    "perfect_variables": {
+      "description": "The variables of each perfect_updates entry, in order (WL3-052).",
+      "$ref": "#/properties/golf_variables"
+    },
+    "perfect_ram": {
+      "description": "The RAM ranges of each perfect_updates entry, in order: WRAM bank (0 for WRAM0), address, size.",
+      "$ref": "#/$defs/ram_ranges"
+    },
+    "perfect_loops": {
+      "description": "[frame, loops]: a visit to the Perfect screen whose first game loop (a call of _PerfectStateTable) ran during the tick that frames[frame] follows, and its number of game loops.",
+      "$ref": "#/properties/golf_loops"
+    },
+    "perfect_updates": {
+      "description": "[frame, values, RAM, virtual OAM, rDIV reads]: at each game loop of the Perfect screen (a call of _PerfectStateTable), the perfect_variables' values, its perfect_ram as hex, wVirtualOAM's 160 bytes as hex, and how many div_reads came before the loop.",
+      "$ref": "#/properties/clear_updates"
+    },
+    "perfect_vram": {
+      "description": "[perfect update, VRAM bank 0, VRAM bank 1]: at every 32nd game loop of a visit to the Perfect screen, both VRAM banks as hex at the loop's start.",
+      "$ref": "#/properties/golf_vram"
+    },
+    "perfect_screens": {
+      "description": "[perfect update, screen]: the screen shown during the loop of that perfect_updates entry (a perfect_vram snapshot's loop), captured at the end of the tick it ran in: 160x144 RGB bytes, gzipped, in base64.",
+      "$ref": "#/properties/golf_screens"
+    },
+    "overworld_variables": {
+      "description": "The variables of each overworld_updates entry, in order (WL3-052).",
+      "$ref": "#/properties/golf_variables"
+    },
+    "overworld_ram": {
+      "description": "The RAM ranges of each overworld_updates entry, in order: bank, address (SRAM from a000, WRAM0 from c000, WRAMX from d000), size.",
+      "$ref": "#/$defs/ram_ranges"
+    },
+    "overworld_loops": {
+      "description": "[frame, loops]: a visit to the map whose first game loop (a call of OverworldStateTable) ran during the tick that frames[frame] follows, and its number of game loops.",
+      "$ref": "#/properties/golf_loops"
+    },
+    "overworld_updates": {
+      "description": "[frame, values, RAM, virtual OAM, rDIV reads]: at each game loop of the map (a call of OverworldStateTable), the overworld_variables' values, its overworld_ram as hex, wVirtualOAM's 160 bytes as hex, and how many div_reads came before the loop.",
+      "$ref": "#/properties/clear_updates"
+    },
+    "overworld_vram": {
+      "description": "[update, VRAM bank 0, VRAM bank 1]: at every 32nd game loop of a visit to the map, both VRAM banks as hex at the loop's start.",
+      "$ref": "#/properties/golf_vram"
+    },
+    "overworld_screens": {
+      "description": "[update, screen]: the screen shown during the loop of that overworld_updates entry (a overworld_vram snapshot's loop), captured at the end of the tick it ran in: 160x144 RGB bytes, gzipped, in base64.",
+      "$ref": "#/properties/golf_screens"
+    },
+    "pause_menu_variables": {
+      "description": "The variables of each pause_menu_updates entry, in order (WL3-052).",
+      "$ref": "#/properties/golf_variables"
+    },
+    "pause_menu_ram": {
+      "description": "The RAM ranges of each pause_menu_updates entry, in order: bank, address (SRAM from a000, WRAM0 from c000, WRAMX from d000), size.",
+      "$ref": "#/$defs/ram_ranges"
+    },
+    "pause_menu_loops": {
+      "description": "[frame, loops]: a visit to the pause menu whose first game loop (a call of _PauseMenuStateTable) ran during the tick that frames[frame] follows, and its number of game loops.",
+      "$ref": "#/properties/golf_loops"
+    },
+    "pause_menu_updates": {
+      "description": "[frame, values, RAM, virtual OAM, rDIV reads]: at each game loop of the pause menu (a call of _PauseMenuStateTable), the pause_menu_variables' values, its pause_menu_ram as hex, wVirtualOAM's 160 bytes as hex, and how many div_reads came before the loop.",
+      "$ref": "#/properties/clear_updates"
+    },
+    "pause_menu_vram": {
+      "description": "[update, VRAM bank 0, VRAM bank 1]: at every 32nd game loop of a visit to the pause menu, both VRAM banks as hex at the loop's start.",
+      "$ref": "#/properties/golf_vram"
+    },
+    "pause_menu_screens": {
+      "description": "[update, screen]: the screen shown during the loop of that pause_menu_updates entry (a pause_menu_vram snapshot's loop), captured at the end of the tick it ran in: 160x144 RGB bytes, gzipped, in base64.",
+      "$ref": "#/properties/golf_screens"
+    },
+    "title_variables": {
+      "description": "The variables of each title_updates entry, in order (WL3-055).",
+      "$ref": "#/properties/golf_variables"
+    },
+    "title_ram": {
+      "description": "The RAM ranges of each title_updates entry, in order: bank, address (WRAM0 from c000, WRAMX from d000), size.",
+      "$ref": "#/$defs/ram_ranges"
+    },
+    "title_loops": {
+      "description": "[frame, loops]: a visit to the title whose first game loop (a call of TitleStateTable) ran during the tick that frames[frame] follows, and its number of game loops.",
+      "$ref": "#/properties/golf_loops"
+    },
+    "title_updates": {
+      "description": "[frame, values, RAM, virtual OAM, rDIV reads]: at each game loop of the title (a call of TitleStateTable), the title_variables' values, its title_ram as hex, wVirtualOAM's 160 bytes as hex, and how many div_reads came before the loop.",
+      "$ref": "#/properties/clear_updates"
+    },
+    "title_vram": {
+      "description": "[update, VRAM bank 0, VRAM bank 1]: at every 32nd game loop of a visit to the title, both VRAM banks as hex at the loop's start.",
+      "$ref": "#/properties/golf_vram"
+    },
+    "title_screens": {
+      "description": "[update, screen]: the screen shown during the loop of that title_updates entry (a title_vram snapshot's loop), captured at the end of the tick it ran in: 160x144 RGB bytes, gzipped, in base64.",
+      "$ref": "#/properties/golf_screens"
+    },
+    "language_selection_variables": {
+      "description": "The variables of each language_selection_updates entry, in order (WL3-056).",
+      "$ref": "#/properties/golf_variables"
+    },
+    "language_selection_ram": {
+      "description": "The RAM ranges of each language_selection_updates entry, in order: bank, address (WRAM0 from c000, WRAMX from d000), size.",
+      "$ref": "#/$defs/ram_ranges"
+    },
+    "language_selection_loops": {
+      "description": "[frame, loops]: a visit to the language selection whose first game loop (a call of LanguageSelectionStateTable) ran during the tick that frames[frame] follows, and its number of game loops.",
+      "$ref": "#/properties/golf_loops"
+    },
+    "language_selection_updates": {
+      "description": "[frame, values, RAM, virtual OAM, rDIV reads]: at each game loop of the language selection, the language_selection_variables' values, its language_selection_ram as hex, wVirtualOAM's 160 bytes as hex, and how many div_reads came before the loop.",
+      "$ref": "#/properties/clear_updates"
+    },
+    "language_selection_vram": {
+      "description": "[update, VRAM bank 0, VRAM bank 1]: at every 32nd game loop of a visit to the language selection, both VRAM banks as hex at the loop's start.",
+      "$ref": "#/properties/golf_vram"
+    },
+    "language_selection_screens": {
+      "description": "[update, screen]: the screen shown during the loop of that language_selection_updates entry (a language_selection_vram snapshot's loop), captured at the end of the tick it ran in: 160x144 RGB bytes, gzipped, in base64.",
+      "$ref": "#/properties/golf_screens"
+    },
+    "golf_building_variables": {
+      "description": "The variables of each golf_building_updates entry, in order (WL3-050).",
+      "$ref": "#/properties/golf_variables"
+    },
+    "golf_building_ram": {
+      "description": "The RAM ranges of each golf_building_updates entry, in order: bank, address (WRAM0 from c000, WRAMX from d000), size.",
+      "$ref": "#/$defs/ram_ranges"
+    },
+    "golf_building_loops": {
+      "description": "[frame, loops]: a visit to the golf building whose first game loop (a call of _GolfBuildingStateTable) ran during the tick that frames[frame] follows, and its number of game loops.",
+      "$ref": "#/properties/golf_loops"
+    },
+    "golf_building_updates": {
+      "description": "[frame, values, RAM, virtual OAM, rDIV reads]: at each game loop of the golf building, the golf_building_variables' values, its golf_building_ram as hex, wVirtualOAM's 160 bytes as hex, and how many div_reads came before the loop.",
+      "$ref": "#/properties/clear_updates"
+    },
+    "golf_building_vram": {
+      "description": "[update, VRAM bank 0, VRAM bank 1]: at every 32nd game loop of a visit to the golf building, both VRAM banks as hex at the loop's start.",
+      "$ref": "#/properties/golf_vram"
+    },
+    "golf_building_screens": {
+      "description": "[update, screen]: the screen shown during the loop of that golf_building_updates entry (a golf_building_vram snapshot's loop), captured at the end of the tick it ran in: 160x144 RGB bytes, gzipped, in base64.",
+      "$ref": "#/properties/golf_screens"
+    },
+    "animation_copies": {
+      "description": "[frame, line]: each 8-byte chunk UpdateRoomAnimatedTiles copied to VRAM during the tick that frames[frame] follows, with rLY when it was written (in that line's H-Blank; lines drawn before show the old tiles). Older traces lack them.",
+      "type": "array",
+      "items": {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 2, "maxItems": 2}
+    },
+    "pal_writes": {
+      "description": "[frame, kind, line, left, source]: each palette a level wrote while its frame was drawn, one palette an H-Blank, during the tick that frames[frame] follows: kind 0 a BG palette (SetBGPals), 1 an OBJ palette (SetWarioPal); rLY when its first byte was written (lines drawn before show the old colours), the palettes left to write counting this one (B), and where its bytes come from (HL). Older traces lack them.",
+      "type": "array",
+      "items": {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 5, "maxItems": 5}
+    },
+    "temple_vram": {
+      "description": "[frame, VRAM bank 0, VRAM bank 1]: at every 32nd Wario update in the Temple (the hidden figure's fight), both VRAM banks as hex at the update's start, during the tick that frames[frame] follows. Older traces lack them.",
+      "$ref": "#/properties/golf_vram"
+    },
+    "temple_screens": {
+      "description": "[frame, screen]: the screen shown during the tick of a temple_vram snapshot's frame, captured at its end: 160x144 RGB bytes, gzipped, in base64. Older traces lack them.",
+      "$ref": "#/properties/golf_screens"
+    },
+    "div_reads": {
+      "description": "[frame, checkpoints, bank, address, value]: a read of rDIV (the hardware timer) during the tick that frames[frame] follows, after `checkpoints` object checkpoints, hooked at the instruction after the read, in the order the game made them; with bank 255, ProcessBlock's read of a block byte outside the recorded map rows (address: where it read).",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "minItems": 5,
+        "maxItems": 5
+      }
+    }
+  },
+  "$defs": {
+    "ram_ranges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "bank",
+          "address",
+          "size"
+        ],
+        "properties": {
+          "bank": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 7
+          },
+          "address": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{4}$"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "format": "wl3pc.input-trace",
+  "format_version": 1,
+  "description": "Hold right for 300 ticks. WL3-014 oracle capture from the ootw-day1-start route; also runnable on the native runtime for comparison.",
+  "ticks": 300,
+  "events": [
+    {"tick": 0, "held": ["right"]}
+  ]
+}

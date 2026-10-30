@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wl3pc.invalid/schemas/level-block-maps.v2.schema.json",
+  "title": "Extracted level block and object maps, version 2",
+  "description": "Output of tools/wl3pc/extract/level_maps.py. ROM-derived: lives only under ignored local/content/. Each distinct block map lists its rows as hex strings of raw map bytes (row_width bytes each; the final row may be shorter, as the original leaves the rest of that SRAM row unwritten). The block function table index is the byte with bit 7 cleared. Version 2 adds the object maps: object_row_width bytes per row, one nibble per block, high nibble first; nibble $f marks the spawn block.",
+  "type": "object",
+  "required": ["format", "format_version", "marker", "exploratory", "provenance", "pointer_table", "level_count", "row_width", "levels", "maps", "audit"],
+  "$defs": {
+    "banked": {"type": "string", "pattern": "^[0-9a-f]{2,3}:[0-9a-f]{4}$"}
+  },
+  "properties": {
+    "format": {"const": "wl3pc.level-block-maps"},
+    "format_version": {"const": 2},
+    "marker": {"type": "string"},
+    "exploratory": {"type": "boolean"},
+    "pointer_table": {"$ref": "#/$defs/banked"},
+    "level_count": {"type": "integer", "minimum": 1},
+    "row_width": {"type": "integer", "minimum": 1},
+    "provenance": {
+      "type": "object",
+      "required": ["rom_sha256", "extractor", "extractor_version", "layout_evidence"],
+      "properties": {"rom_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+    },
+    "levels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["level", "status"],
+        "properties": {
+          "level": {"type": "integer", "minimum": 0},
+          "status": {"enum": ["decoded", "reset-sentinel"]},
+          "pointer": {"type": "string", "pattern": "^[0-9a-f]{4}$"},
+          "map": {"$ref": "#/$defs/banked"}
+        },
+        "if": {"properties": {"status": {"const": "decoded"}}},
+        "then": {"required": ["map"]},
+        "else": {"required": ["pointer"]}
+      }
+    },
+    "maps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["location", "record", "object_map", "used_by_levels", "compressed_bytes", "bytes", "rows",
+                     "incomplete_final_row", "blocks_with_bit7", "block_rows", "object_compressed_bytes",
+                     "object_bytes", "object_incomplete_final_row", "object_rows"],
+        "properties": {
+          "location": {"$ref": "#/$defs/banked"},
+          "record": {"$ref": "#/$defs/banked"},
+          "object_map": {"$ref": "#/$defs/banked"},
+          "used_by_levels": {"type": "array", "minItems": 1, "items": {"type": "integer"}},
+          "compressed_bytes": {"type": "integer", "minimum": 1},
+          "bytes": {"type": "integer", "minimum": 0},
+          "rows": {"type": "integer", "minimum": 0},
+          "incomplete_final_row": {"type": "boolean"},
+          "blocks_with_bit7": {"type": "integer", "minimum": 0},
+          "block_rows": {"type": "array", "items": {"type": "string", "pattern": "^([0-9a-f]{2})+$"}},
+          "object_compressed_bytes": {"type": "integer", "minimum": 1},
+          "object_bytes": {"type": "integer", "minimum": 0},
+          "object_incomplete_final_row": {"type": "boolean"},
+          "object_rows": {"type": "array", "items": {"type": "string", "pattern": "^([0-9a-f]{2})+$"}},
+          "symbol": {"type": ["string", "null"]},
+          "object_map_symbol": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "required": ["maps_with_incomplete_final_row", "object_maps_with_incomplete_final_row", "row_counts"],
+      "properties": {
+        "maps_with_incomplete_final_row": {"type": "array", "items": {"type": "string"}},
+        "object_maps_with_incomplete_final_row": {"type": "array", "items": {"type": "string"}},
+        "row_counts": {"type": "array", "items": {"type": "integer"}},
+        "maps_without_symbol": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

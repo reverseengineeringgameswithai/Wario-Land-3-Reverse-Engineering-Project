@@ -1,0 +1,48 @@
+{
+  "lock_version": 1,
+  "updated": "2026-10-01",
+  "verified_host": {
+    "os": "Fedora Linux 44 (Workstation Edition)",
+    "arch": "x86_64",
+    "kernel": "7.0.11-200.fc44.x86_64"
+  },
+  "godot": {
+    "version": "4.7.2-stable",
+    "version_string": "4.7.2.stable.official.ed1daf0bf",
+    "build": "standard (GDScript, not .NET)",
+    "release_page": "https://github.com/godotengine/godot/releases/tag/4.7.2-stable",
+    "checksums_url": "https://github.com/godotengine/godot/releases/download/4.7.2-stable/SHA512-SUMS.txt",
+    "editor": {
+      "file": "Godot_v4.7.2-stable_linux.x86_64.zip",
+      "url": "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip",
+      "sha512": "9aa00f7a605200940bce3027a567b782f49bd8e940dd06ae9e987bd65aee1b1467edd56ed84fcdcbdd44354bf613bdbb4e5d2913e925850368e150c59ed54c65",
+      "binary": "Godot_v4.7.2-stable_linux.x86_64"
+    },
+    "export_templates": {
+      "file": "Godot_v4.7.2-stable_export_templates.tpz",
+      "url": "https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_export_templates.tpz",
+      "sha512": "ca4d71c4d7b81dfc15d1a98baa07534aa95b03fdda78a0075b06672e1648d2e5f40980c9adc28d23e1b92e732ee7bf3461997aa804af74ec2fcd7a93ccb84079",
+      "version_dir": "4.7.2.stable",
+      "extract": ["templates/version.txt", "templates/linux_debug.x86_64", "templates/linux_release.x86_64"]
+    },
+    "install_dir": "local/toolchain/godot-4.7.2",
+    "self_contained": true,
+    "renderer": "gl_compatibility",
+    "fedora_package_note": "Fedora 44 updates carries godot-4.7.2-1.fc44 (same engine version); not installed because it needs root. The user-local ~/.local/bin/godot is the .NET build and is not used by this project."
+  },
+  "rgbds": {
+    "version": "v1.0.0",
+    "commit": "fb9fa6038cfc39a448f043806219a58c86daf930",
+    "install_dir": "local/toolchain/rgbds-1.0.0",
+    "required_by": "ElectroDeoxys/warioland3 src/rgbdscheck.asm requires >= 1.0.0; its CI pins v1.0.0",
+    "fedora_build_packages": ["gcc-c++", "make", "bison", "libpng-devel", "pkgconf-pkg-config"],
+    "fedora_package_note": "Fedora 44 offers rgbds 0.9.0, which the disassembly rejects."
+  },
+  "python": {
+    "version": "3.14",
+    "interpreter": "/usr/bin/python3.14 (Fedora python3 3.14.6)",
+    "manager": "uv 0.11.23",
+    "lockfile": "uv.lock",
+    "dev_dependencies": {"pytest": "9.1.1", "jsonschema": "4.26.0"}
+  }
+}

@@ -1,0 +1,17 @@
+# Normalise text to LF; keep Godot text resources diffable.
+* text=auto eol=lf
+*.gd text eol=lf
+*.tscn text eol=lf
+*.tres text eol=lf
+*.godot text eol=lf
+*.cfg text eol=lf
+*.uid text eol=lf
+*.import text eol=lf
+*.png binary
+*.ogg binary
+*.wav binary
+*.ttf binary
+*.otf binary
+# Never tracked (see .gitignore); listed so accidental adds are not text-mangled.
+*.gb binary
+*.gbc binary

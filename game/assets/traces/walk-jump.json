@@ -1,0 +1,12 @@
+{
+  "format": "wl3pc.input-trace",
+  "format_version": 1,
+  "description": "Walk right until blocked by the one-block step, jump while pressing right, cross the step, walk off its far side, release. Used by --selftest and the Godot regression test.",
+  "ticks": 220,
+  "events": [
+    {"tick": 0, "held": ["right"]},
+    {"tick": 135, "held": ["right", "a"]},
+    {"tick": 139, "held": ["right"]},
+    {"tick": 190, "held": []}
+  ]
+}
