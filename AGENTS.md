@@ -16,6 +16,9 @@ Project knowledge lives in the vault; start at [docs/00-home.md](docs/00-home.md
 - System installs, `sudo`, and changes outside the project need the user's
   approval. Inspect downloaded build scripts before running them.
 - Do not call the project clean-room: contributors have read the disassembly.
+- Never write the owner's name, surname, personal email, or personal GitHub
+  login anywhere: files, code, tests, comments, commit messages, or anything
+  sent to GitHub. Refer to them as "the owner", and write paths repo-relative.
 
 ## Layout
 
